@@ -1,0 +1,50 @@
+import sys
+import json
+import jsonschema
+
+from collections.abc import Callable
+
+def run_weekly_challenge(run_solution: Callable[[object], str], inputs_example: str, inputs_schema_json: str) -> None:
+    """
+    Runs a solution to https://theweeklychallenge.org using one or more sets of inputs provided as JSON command line arguments.
+
+    Parameters:
+    run_solution: callable taking one set of decoded inputs as an object and returning the stringified result
+    inputs_example (str): example json input to specify on the command line, for use in error messages when inputs are incorrect
+    inputs_schema_json (str): JSON schema (draft 2020-12) specifying each set of inputs
+    """
+    inputs: list[str] = sys.argv[1:]
+
+    validator = jsonschema.Draft202012Validator(json.loads(inputs_schema_json))
+
+    # inputs were incorrectly formatted and we should complain at the end
+    inputs_error = False
+
+    for inputs_json in inputs:
+        # show the inputs
+        print(f'Inputs: {inputs_json}')
+
+        # decode the json
+        try:
+            inputs = json.loads(inputs_json)
+        except Exception as inst:
+            print(f'Error: invalid json: {inst}')
+            inputs_error = True
+            continue
+        # validate inputs contains what we expect
+        try:
+            validator.validate(inputs)
+        except jsonschema.ValidationError as inst:
+            print(f'Error: invalid input: {inst.message}')
+            inputs_error = True
+            continue
+
+        # run it and show the results
+        try:
+            result = run_solution(inputs)
+            print(f'Output: {result}')
+        except Exception as inst:
+            print(f'Exception: {inst}')
+
+    if inputs_error:
+        print(f'Expected inputs arguments like {inputs_example}')
