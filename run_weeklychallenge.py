@@ -3,6 +3,7 @@ import json
 import jsonschema
 
 from collections.abc import Callable
+from typing import cast
 
 def run_weekly_challenge(run_solution: Callable[[object], str], inputs_example: str, inputs_schema_json: str) -> None:
     """
@@ -48,3 +49,17 @@ def run_weekly_challenge(run_solution: Callable[[object], str], inputs_example: 
 
     if inputs_error:
         print(f'Expected inputs arguments like {inputs_example}')
+
+# some helper functions to allow for type checking of caller
+
+def as_int(inputs: object, key: str) -> int:
+    """
+    Extract an attribute as an int.
+    """
+    return cast(int, cast(dict, inputs).get(key))
+
+def as_int_list(inputs: object, key: str) -> list[int]:
+    """
+    Extract an attribute as a list of int.
+    """
+    return cast(list[int], cast(dict, inputs).get(key))

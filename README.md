@@ -35,4 +35,4 @@ Example output:
     Inputs: {"ints":[]}
     Output: 0
 
-You must provide an example JSON inputs string (used in error messages), a JSON schema for inputs, and a shim function to run the solution given the decoded JSON inputs and reformat the output if desired.
+You must provide an example JSON inputs string (used in error messages), a JSON schema for inputs, and a shim function to run the solution given the decoded JSON inputs and reformat the output if desired.  To support type checking, helper functions are provided to extract properties of the JSON input as various types to pass to the solution in the shim function.
