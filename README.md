@@ -2,9 +2,6 @@ Facilitates running a solution to [the Weekly Challenge](https://theweeklychalle
 
 Example usage running a "solution" to sum integers:
 
-    import run_weeklychallenge as run
-    import run
-    
     def sum_of_ints(ints: list[int]) -> int:
         sum: int = 0
         i: int
@@ -12,11 +9,10 @@ Example usage running a "solution" to sum integers:
             sum += i
         return sum
     
-    def main() -> None:
-        def run_solution(inputs: object) -> str:
-            return str(sum_of_ints(cast(list[int], cast(dict, inputs).get("ints"))))
+    if __name__ == '__main__':
+        import run_weeklychallenge as run
         run.run_weekly_challenge(
-            run_solution,
+            run_solution = lambda inputs: str(sum_of_ints(run.as_int_list(inputs, 'ints'))),
             inputs_example = '{"ints":[1,2,3]}',
             inputs_schema_json = '''{
                 "type": "object",
@@ -30,9 +26,6 @@ Example usage running a "solution" to sum integers:
                 "additionalProperties": false
             }'''
         )
-    
-    if __name__ == '__main__':
-        main()
 
 Example output:
 
