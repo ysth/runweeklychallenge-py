@@ -52,6 +52,12 @@ def run_weekly_challenge(run_solution: Callable[[object], str], inputs_example: 
 
 # some helper functions to allow for type checking of caller
 
+def as_str(inputs: object, key: str) -> str:
+    """
+    Extract an attribute as a str.
+    """
+    return cast(str, cast(dict, inputs).get(key))
+
 def as_int(inputs: object, key: str) -> int:
     """
     Extract an attribute as an int.
