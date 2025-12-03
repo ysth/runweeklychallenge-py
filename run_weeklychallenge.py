@@ -5,7 +5,10 @@ import jsonschema
 from collections.abc import Callable
 from typing import cast
 
-def run_weekly_challenge(run_solution: Callable[[object], str], inputs_example: str, inputs_schema_json: str) -> None:
+
+def run_weekly_challenge(
+    run_solution: Callable[[object], str], inputs_example: str, inputs_schema_json: str
+) -> None:
     """
     Runs a solution to https://theweeklychallenge.org using one or more sets of inputs provided as JSON command line arguments.
 
@@ -23,34 +26,36 @@ def run_weekly_challenge(run_solution: Callable[[object], str], inputs_example: 
 
     for inputs_json in inputs:
         # show the inputs
-        print(f'Inputs: {inputs_json}')
+        print(f"Inputs: {inputs_json}")
 
         # decode the json
         try:
             inputs = json.loads(inputs_json)
         except Exception as inst:
-            print(f'Error: invalid json: {inst}')
+            print(f"Error: invalid json: {inst}")
             inputs_error = True
             continue
         # validate inputs contains what we expect
         try:
             validator.validate(inputs)
         except jsonschema.ValidationError as inst:
-            print(f'Error: invalid input: {inst.message}')
+            print(f"Error: invalid input: {inst.message}")
             inputs_error = True
             continue
 
         # run it and show the results
         try:
             result = run_solution(inputs)
-            print(f'Output: {result}')
+            print(f"Output: {result}")
         except Exception as inst:
-            print(f'Exception: {inst}')
+            print(f"Exception: {inst}")
 
     if inputs_error:
-        print(f'Expected inputs arguments like {inputs_example}')
+        print(f"Expected inputs arguments like {inputs_example}")
+
 
 # some helper functions to allow for type checking of caller
+
 
 def as_str(inputs: object, key: str) -> str:
     """
@@ -58,11 +63,13 @@ def as_str(inputs: object, key: str) -> str:
     """
     return cast(str, cast(dict, inputs).get(key))
 
+
 def as_int(inputs: object, key: str) -> int:
     """
     Extract an attribute as an int.
     """
     return cast(int, cast(dict, inputs).get(key))
+
 
 def as_int_list(inputs: object, key: str) -> list[int]:
     """
