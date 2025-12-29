@@ -83,3 +83,6 @@ def as_int_list(inputs: object, key: str) -> list[int]:
     Extract an attribute as a list of int.
     """
     return cast(list[int], cast(dict, inputs).get(key))
+
+def dumps(obj) -> str:
+    return json.dumps(obj, ensure_ascii=True, separators=(',',':'), sort_keys=True)
