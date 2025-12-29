@@ -71,6 +71,13 @@ def as_int(inputs: object, key: str) -> int:
     return cast(int, cast(dict, inputs).get(key))
 
 
+def as_str_list(inputs: object, key: str) -> list[str]:
+    """
+    Extract an attribute as a list of str.
+    """
+    return cast(list[str], cast(dict, inputs).get(key))
+
+
 def as_int_list(inputs: object, key: str) -> list[int]:
     """
     Extract an attribute as a list of int.
