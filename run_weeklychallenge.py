@@ -3,7 +3,7 @@ import json
 import jsonschema
 
 from collections.abc import Callable
-from typing import cast
+from typing import cast, Any
 
 
 def run_weekly_challenge(
@@ -83,6 +83,12 @@ def as_int_list(inputs: object, key: str) -> list[int]:
     Extract an attribute as a list of int.
     """
     return cast(list[int], cast(dict, inputs).get(key))
+
+def as_list_list(inputs: object, key: str) -> list[list[Any]]:
+    """
+    Extract an attribute as a list of list of any.
+    """
+    return cast(list[list[Any]], cast(dict, inputs).get(key))
 
 def dumps(obj) -> str:
     return json.dumps(obj, ensure_ascii=True, separators=(',',':'), sort_keys=True)
